@@ -34,10 +34,11 @@ jobs:
     - name: Validate executable
       shell: msys2 {0}
       run: |
+        cd ..
         echo "Testing --version flag..."
-        ../bin/mousejiggler.exe --version
+        ./bin/mousejiggler.exe --version
         echo "Testing --help flag..."
-        ../bin/mousejiggler.exe --help
+        ./bin/mousejiggler.exe --help
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
