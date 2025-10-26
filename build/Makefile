@@ -3,10 +3,10 @@
 
 # Configuration
 CC ?= gcc
-CFLAGS ?= -Wall -Wextra -std=c99 -O2
+CFLAGS ?= -Wall -Wextra -std=c99 -Os -ffunction-sections -fdata-sections -fno-asynchronous-unwind-tables
 RCFLAGS ?=
 LIBS := user32 gdi32 comctl32 shell32 advapi32
-LDFLAGS := $(addprefix -l,$(LIBS))
+LDFLAGS := $(addprefix -l,$(LIBS)) -Wl,--gc-sections -s
 
 # Directories
 SRC_DIR := ../src
