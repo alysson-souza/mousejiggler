@@ -13,10 +13,10 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
 
     - name: Setup MSYS2 (MinGW-w64)
-      uses: msys2/setup-msys2@v2
+      uses: msys2/setup-msys2@v2.29.0
       with:
         msystem: mingw64
         update: true
@@ -40,7 +40,7 @@ jobs:
         ./bin/mousejiggler.exe --help
 
     - name: Upload artifacts
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: mousejiggler-mingw64-${{ github.sha }}
         path: bin/mousejiggler.exe
@@ -51,10 +51,10 @@ jobs:
     runs-on: windows-latest
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
 
     - name: Setup MSVC environment
-      uses: ilammy/msvc-dev-cmd@v1
+      uses: ilammy/msvc-dev-cmd@v1.13.0
 
     - name: Build with MSVC
       shell: cmd
@@ -72,7 +72,7 @@ jobs:
         bin\mousejiggler.exe --help
 
     - name: Upload artifacts
-      uses: actions/upload-artifact@v4
+      uses: actions/upload-artifact@v5
       with:
         name: mousejiggler-msvc-${{ github.sha }}
         path: bin/mousejiggler.exe
@@ -82,19 +82,34 @@ jobs:
     needs: [build-mingw, build-msvc]
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/v')
+    permissions:
+      contents: write
 
     steps:
-    - uses: actions/checkout@v4
+    - uses: actions/checkout@v5
 
-    - name: Download all artifacts
-      uses: actions/download-artifact@v4
+    - name: Download MinGW artifact
+      uses: actions/download-artifact@v6
       with:
-        path: artifacts
+        name: mousejiggler-mingw64-${{ github.sha }}
+        path: release-mingw
+
+    - name: Download MSVC artifact
+      uses: actions/download-artifact@v6
+      with:
+        name: mousejiggler-msvc-${{ github.sha }}
+        path: release-msvc
+
+    - name: Rename artifacts for release
+      run: |
+        mv release-mingw/mousejiggler.exe mousejiggler-${{ github.ref_name }}-mingw64.exe
+        mv release-msvc/mousejiggler.exe mousejiggler-${{ github.ref_name }}-msvc.exe
 
     - name: Create Release
-      uses: softprops/action-gh-release@v1
+      uses: softprops/action-gh-release@v2
       with:
-        files: artifacts/**/mousejiggler.exe
+        files: |
+          mousejiggler-${{ github.ref_name }}-mingw64.exe
+          mousejiggler-${{ github.ref_name }}-msvc.exe
         generate_release_notes: true
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        fail_on_unmatched_files: true
