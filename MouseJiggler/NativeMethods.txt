@@ -1,3 +1,0 @@
-﻿AttachConsole
-FreeConsole
-SendInput

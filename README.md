@@ -5,29 +5,26 @@ Mouse Jiggler is a very simple piece of software whose sole function is to "fake
 
 Useful for avoiding screensavers or other things triggered by idle detection that, for whatever reason, you can't turn off any other way; or as a quick way to stop a screensaver activating during an installation or when monitoring a long operation without actually having to muck about with the screensaver settings.
 
-Installation
-============
+Building
+=========
 
-The easiest means of installing Mouse Jiggler is using Chocolatey:
+This is a pure C implementation with no runtime dependencies. Simply build from source:
 
-`choco install mouse-jiggler`
+**Windows (MSVC):**
+```
+cd build
+build.bat
+```
 
-Bare releases continue to be available at right for installation without administrative permissions, although the .NET 5 Desktop runtime must be installed first.
+**Windows/Linux/macOS (MinGW-w64 or GCC):**
+```
+cd build
+make
+```
 
-Please note that due to a compatibility issue with the Chocolatey shims, running Mouse Jiggler via the shim does not display command-line help or the Mouse Jiggler version when the -h/--help/-? or --version switches are used. To do so, Mouse Jiggler must be invoked directly. To easily discover the location of the original Mouse Jiggler executable for this purpose, run:
+The compiled executable will be at `bin/mousejiggler.exe`
 
-`mousejiggler --shimgen-log`
-
-Portable Version
-----------------
-
-A portable version of Mouse Jiggler (i.e., one which does not require the .NET 5 runtime, and so can be installed on locked-down corporate machines that don't have it installed) is available on the releases page, as MouseJiggler-portable.zip. Just unzip and go.
-
-**DO NOT USE THIS VERSION IF YOU HAVE ANY OTHER ALTERNATIVE.**
-
-Let me put it to you this way. _Standard_ Mouse Jiggler, at the time of writing, is a single executable a mite under 1 MB in size. _Portable_ Mouse Jiggler is a folder of executables summing to approximately **83 MB**, for one of the most trivial applications imaginable, after all the assorted trimming-and-compressing magic is done. It's a bloated behemoth. If there is _any_ possibility that you will _ever_ run any other app that uses the .NET 5 runtime, you are much better off installing that and the regular version.
-
-The only reason this exists is for those poor sods whose IT department makes it impossible to do that, and may their deities have mercy on their souls.
+For detailed build instructions and prerequisites, see the comments in `build/Makefile` or `build/build.bat`.
 
 Operation
 =========
@@ -58,7 +55,7 @@ The `-j` command-line switch tells Mouse Jiggler to commence jiggling immediatel
 Bugs
 ====
 
-When installed using Chocolatey, command-line help may not be displayed properly. See "installation" above.
+No known issues. Please report any issues on GitHub.
 
 Features That Will Not Be Implemented
 =====================================

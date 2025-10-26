@@ -1,0 +1,57 @@
+// MouseJiggler - mousejiggler.rc
+// Resource definitions
+
+#include <windows.h>
+#include "../src/resource.h"
+
+// Version information
+VS_VERSION_INFO VERSIONINFO
+  FILEVERSION 2,1,0,0
+  PRODUCTVERSION 2,1,0,0
+  MASK 0x3f
+  FLAG 0x0
+  BEGIN
+    BLOCK "StringFileInfo"
+    BEGIN
+      BLOCK "040904E4"
+      BEGIN
+        VALUE "CompanyName", "Arkane Systems"
+        VALUE "FileDescription", "Mouse Jiggler - Prevent Screensaver Activation"
+        VALUE "FileVersion", "2.1.0"
+        VALUE "InternalName", "mousejiggler"
+        VALUE "LegalCopyright", "Copyright (c) 2007-2025 Alistair J. R. Young"
+        VALUE "OriginalFilename", "mousejiggler.exe"
+        VALUE "ProductName", "Mouse Jiggler"
+        VALUE "ProductVersion", "2.1.0"
+      END
+    END
+    BLOCK "VarFileInfo"
+    BEGIN
+      VALUE "Translation", 0x409, 1252
+    END
+  END
+
+// String table
+STRINGTABLE
+BEGIN
+  IDS_APP_TITLE,           "Mouse Jiggler"
+  IDS_MAIN_CLASS,          "MouseJiggler_MainWindow"
+  IDS_ABOUT_TITLE,         "About Mouse Jiggler"
+END
+
+// Note: Icon would be included here if we had one embedded
+// IDI_MAIN_ICON ICON "Mouse (ISO).ico"
+
+// About dialog (alternative template, if using DialogBox)
+// IDD_ABOUT_DIALOG DIALOGEX 0, 0, 400, 300, 0, 0, WS_CAPTION | WS_POPUP | WS_SYSMENU
+// STYLE DS_SHELLFONT
+// CAPTION "About Mouse Jiggler"
+// FONT 8, "MS Shell Dlg 2"
+// BEGIN
+//     LTEXT "Mouse Jiggler", IDC_STATIC_ABOUT_NAME, 10, 10, 380, 20
+//     LTEXT "Version 2.1.0", IDC_STATIC_ABOUT_VERSION, 10, 35, 380, 15
+//     LTEXT "Copyright © Alistair J. R. Young 2007-2025", IDC_STATIC_ABOUT_COPYRIGHT, 10, 55, 380, 15
+//     LTEXT "Arkane Systems", IDC_STATIC_ABOUT_COMPANY, 10, 75, 380, 15
+//     EDITTEXT IDC_TEXT_ABOUT_DESCRIPTION, 10, 95, 380, 70, ES_LEFT | ES_MULTILINE | ES_READONLY | WS_VSCROLL
+//     PUSHBUTTON "OK", IDC_BUTTON_OK_ABOUT, 175, 270, 50, 14
+// END
