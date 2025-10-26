@@ -10,6 +10,11 @@
 #include <commctrl.h>
 #include <stdio.h>
 
+/* Initialize common controls */
+#ifndef ICC_TRACKBAR_CLASS
+#define ICC_TRACKBAR_CLASS 0x00000020
+#endif
+
 /* Single-instance mutex name */
 #define MUTEX_NAME L"Global\\ArkaneSystems.MouseJiggler"
 
