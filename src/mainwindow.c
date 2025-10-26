@@ -54,12 +54,12 @@ static ATOM MainWindow_RegisterClass(void)
     wc.cbClsExtra = 0;
     wc.cbWndExtra = sizeof(MainWindowState *);
     wc.hInstance = GetModuleHandleW(NULL);
-    wc.hIcon = LoadIconW(NULL, IDI_APPLICATION);
+    wc.hIcon = LoadIconW(NULL, MAKEINTRESOURCEW(IDI_APPLICATION));
     wc.hCursor = LoadCursorW(NULL, IDC_ARROW);
     wc.hbrBackground = (HBRUSH)(COLOR_BTNFACE + 1);
     wc.lpszMenuName = NULL;
     wc.lpszClassName = MAIN_WINDOW_CLASS;
-    wc.hIconSm = LoadIconW(NULL, IDI_APPLICATION);
+    wc.hIconSm = LoadIconW(NULL, MAKEINTRESOURCEW(IDI_APPLICATION));
 
     result = RegisterClassExW(&wc);
     if (result) {
