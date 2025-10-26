@@ -20,11 +20,12 @@ jobs:
       with:
         msystem: mingw64
         update: true
-        install: mingw-w64-x86_64-gcc mingw-w64-x86_64-make
+        install: mingw-w64-x86_64-gcc mingw-w64-x86_64-make base-devel
 
     - name: Build with MinGW-w64
       shell: msys2 {0}
       run: |
+        which make
         cd build
         make clean
         make
