@@ -8,6 +8,7 @@
 
 #include "settings.h"
 #include <stdbool.h>
+#include <wchar.h>
 
 /* Command-line options */
 typedef struct {
