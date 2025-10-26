@@ -22,7 +22,7 @@ bool TrayIcon_Add(HWND hwnd)
     nid.uID = TRAY_ID;
     nid.uFlags = NIF_ICON | NIF_MESSAGE | NIF_TIP;
     nid.uCallbackMessage = WM_APP + 1;  /* Custom message for tray */
-    nid.hIcon = LoadIconW(NULL, IDI_APPLICATION);
+    nid.hIcon = LoadIconW(NULL, MAKEINTRESOURCEW(IDI_APPLICATION));
     wcscpy_s(nid.szTip, ARRAYSIZE(nid.szTip), L"Mouse Jiggler");
 
     return Shell_NotifyIconW(NIM_ADD, &nid);
