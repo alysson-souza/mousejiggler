@@ -8,28 +8,20 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  build-mingw:
+    name: Build (MinGW-w64)
     runs-on: windows-latest
-    strategy:
-      matrix:
-        include:
-          - name: MinGW-w64
-            toolchain: mingw64
-          - name: MSVC
-            toolchain: msvc
 
     steps:
     - uses: actions/checkout@v4
 
     - name: Setup MSYS2 (MinGW-w64)
-      if: matrix.toolchain == 'mingw64'
       uses: msys2/setup-msys2@v2
       with:
         msystem: mingw64
         install: mingw-w64-x86_64-gcc mingw-w64-x86_64-make
 
     - name: Build with MinGW-w64
-      if: matrix.toolchain == 'mingw64'
       shell: msys2 {0}
       run: |
         cd build
@@ -37,46 +29,55 @@ jobs:
         make
         ls -lh ../bin/mousejiggler.exe
 
-    - name: Build with MSVC
-      if: matrix.toolchain == 'msvc'
-      shell: cmd
-      run: |
-        cd build
-        call build.bat
-        dir ..\bin\mousejiggler.exe
-
-    - name: Validate executable (MinGW-w64)
-      if: matrix.toolchain == 'mingw64'
+    - name: Validate executable
       shell: msys2 {0}
       run: |
         echo "Testing --version flag..."
         ../bin/mousejiggler.exe --version
         echo "Testing --help flag..."
         ../bin/mousejiggler.exe --help
-        echo "Checking executable size..."
-        SIZE=$(stat -f%z ../bin/mousejiggler.exe 2>/dev/null || stat -c%s ../bin/mousejiggler.exe)
-        echo "Executable size: $SIZE bytes"
-
-    - name: Validate executable (MSVC)
-      if: matrix.toolchain == 'msvc'
-      shell: cmd
-      run: |
-        echo Testing --version flag...
-        ..\bin\mousejiggler.exe --version
-        echo Testing --help flag...
-        ..\bin\mousejiggler.exe --help
-        echo Checking executable size...
-        dir ..\bin\mousejiggler.exe
 
     - name: Upload artifacts
       uses: actions/upload-artifact@v4
       with:
-        name: mousejiggler-${{ matrix.toolchain }}-${{ github.sha }}
+        name: mousejiggler-mingw64-${{ github.sha }}
+        path: bin/mousejiggler.exe
+        retention-days: 90
+
+  build-msvc:
+    name: Build (MSVC)
+    runs-on: windows-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Setup MSVC environment
+      uses: ilammy/msvc-dev-cmd@v1
+
+    - name: Build with MSVC
+      shell: cmd
+      run: |
+        cd build
+        call build.bat
+        dir ..\bin\mousejiggler.exe
+
+    - name: Validate executable
+      shell: cmd
+      run: |
+        echo Testing --version flag...
+        bin\mousejiggler.exe --version
+        echo Testing --help flag...
+        bin\mousejiggler.exe --help
+
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: mousejiggler-msvc-${{ github.sha }}
         path: bin/mousejiggler.exe
         retention-days: 90
 
   release:
-    needs: build
+    needs: [build-mingw, build-msvc]
     runs-on: ubuntu-latest
     if: startsWith(github.ref, 'refs/tags/v')
 
