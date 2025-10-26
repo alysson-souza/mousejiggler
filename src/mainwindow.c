@@ -55,7 +55,7 @@ static ATOM MainWindow_RegisterClass(void)
     wc.cbWndExtra = sizeof(MainWindowState *);
     wc.hInstance = GetModuleHandleW(NULL);
     wc.hIcon = LoadIconW(NULL, MAKEINTRESOURCEW(IDI_APPLICATION));
-    wc.hCursor = LoadCursorW(NULL, IDC_ARROW);
+    wc.hCursor = LoadCursorW(NULL, MAKEINTRESOURCEW(IDC_ARROW));
     wc.hbrBackground = (HBRUSH)(COLOR_BTNFACE + 1);
     wc.lpszMenuName = NULL;
     wc.lpszClassName = MAIN_WINDOW_CLASS;
